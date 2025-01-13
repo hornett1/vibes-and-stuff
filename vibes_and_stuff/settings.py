@@ -85,7 +85,7 @@ ROOT_URLCONF = 'vibes_and_stuff.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -158,9 +158,15 @@ MEDIA_ROOT = BASE_DIR / 'media'  # Adjust this path as necessary
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ]
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',  # Если используете сессии
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+    ],
 }
 
 SIMPLE_JWT = {
@@ -173,28 +179,6 @@ SIMPLE_JWT = {
     'ALGORITHM': 'HS512',
 }
 
-
-REST_AUTH = {
-    "USE_JWT": True,
-    "JWT_AUTH_HTTPONLY": False,
-}
-
-ACCOUNT_EMAIL_REQUIRED = False
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-LOGIN_REDIRECT_URL = 'home'
-
-
-SOCIALACCOUNT_PROVIDERS = {
-    "github": {
-        # For each provider, you can choose whether or not the
-        # email address(es) retrieved from the provider are to be
-        # interpreted as verified.
-        "VERIFIED_EMAIL": True
-    },
-    "google": {
-        # For each provider, you can choose whether or not the
-        # email address(es) retrieved from the provider are to be
-        # interpreted as verified.
-        "VERIFIED_EMAIL": True
-    },
-}
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)

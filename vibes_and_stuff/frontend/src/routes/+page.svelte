@@ -1,33 +1,38 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { user } from '../stores/user';
-    import axios from 'axios';
-
-    onMount(async () => {
-        const csrfToken = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('csrftoken='))
-            ?.split('=')[1];
-
-        try {
-            const response = await axios.get('http://127.0.0.1:8000/api/current-user/', {
-                withCredentials: true,
-                headers: {
-                    'X-CSRFToken': csrfToken || '',
-                },
-            }
-            );
-            user.set(response.data); // Set the user data in the store
-        } catch (error) {
-            console.error('Error fetching user:', error);
-        }
-    });
+    export let user: { username: string; email: string } | null;
 </script>
 
-<main>
-    {#if $user}
-        <p>Welcome, {$user.username}!</p>
+<main class="min-h-screen bg-gray-100 flex flex-col">
+    <!-- Навигационное меню -->
+    <nav class="bg-blue-500 p-4 text-white">
+        <ul class="flex space-x-4">
+            <li>
+                <a href="/audio" class="hover:underline">Songs</a>
+            </li>
+            <li>
+                <a href="/gallery" class="hover:underline">Gallery</a>
+            </li>
+            <li>
+                <a href="/forum" class="hover:underline">Forum</a>
+            </li>
+
+            <li>
+                <a href="/login" class="hover:underline">Login</a>
+            </li>
+            <li>
+                <a href="/register" class="hover:underline">Register</a>
+            </li>
+
+            <!-- Показать имя пользователя, если он авторизован -->
+        </ul>
+    </nav>
+    {#if user}
+        <li class="ml-auto">
+            <span class="text-white">Welcome, {user.username} ({user.email})</span>
+        </li>
     {:else}
-        <p>Loading...</p>
+        <li>
+            <p class='ml-auto'>Ошибка с пользователем</p>
+        </li>
     {/if}
 </main>

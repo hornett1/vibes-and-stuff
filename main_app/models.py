@@ -10,24 +10,28 @@ class Image(models.Model):
     likes = models.IntegerField(default=0)
 
 
-class Casette(models.Model):
+class Cassette(models.Model):
     title = models.CharField(max_length=50)
-    author = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+    author = models.CharField(max_length=50, default='Unknown')
     description = models.TextField(blank=True, null=True)
-    # songs = models.
     color1 = ColorField()
     color2 = ColorField()
     color3 = ColorField()
     accent_color = ColorField()
 
+def get_audio_upload_path(instance, filename):
+    return f'audio/{instance.cassette.title}/{filename}'
+
 class Song(models.Model):
     title = models.CharField(max_length=50)
-    author = models.CharField(max_length=50, default='Unkown')
+    author = models.CharField(max_length=50, default='Unknown')
+    cassette = models.ForeignKey(Cassette, blank=True, null=True, on_delete=models.CASCADE, related_name='songs')
     uploader = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
     source = models.FileField(
-        upload_to='audio/',
+        upload_to=get_audio_upload_path,
         validators=[FileExtensionValidator(allowed_extensions=['mp3', 'ogg', 'wav', 'flac', 'm4a'])]
     )
+    
 
     def __str__(self):
         return f'{self.title} - {self.author} uploaded by {self.uploader.username}'
