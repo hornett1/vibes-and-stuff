@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <form method='POST' action="{% url 'delete-cassette' cassette.id %}">
+            {% csrf_token %}
+                <p class='text-yellow-100'>ID: {{ cassette.id }}</p>
+                <p class='text-yellow-100'>Are you sure?</p>
+                <span class='flex flex-row text-yellow-100'>
+                    <a href="{% url 'cassettes-list' %}" class='mr-1'>No</a>
+                    <button type='sumbit'>Yes</button>
+                </span>
+        </form>
+    </div>
+{% endblock %}

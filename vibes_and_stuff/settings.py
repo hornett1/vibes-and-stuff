@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main_app',
-    'rest_framework',
-    'corsheaders',
+    'auth_app',
+    'gallery_app',
 ]
 
 MIDDLEWARE = [
@@ -51,33 +51,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-]
-
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',  
-]
-
-
-CORS_ALLOW_CREDENTIALS = True  
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:5173',  
-]
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-    ],
-}
-
-SESSION_COOKIE_NAME = 'sessionid'
-SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SECURE = False 
-
-CSRF_COOKIE_NAME = 'csrftoken'
-CSRF_COOKIE_HTTPONLY = False  
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5173',
 ]
 
 ROOT_URLCONF = 'vibes_and_stuff.urls'
@@ -148,6 +121,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = 'staticfiles/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'  # Adjust this path as necessary
@@ -157,28 +132,8 @@ MEDIA_ROOT = BASE_DIR / 'media'  # Adjust this path as necessary
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',  # Если используете сессии
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
-    ],
-}
+AUTH_USER_MODEL = 'auth_app.User'
 
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'UPDATE_LAST_LOGIN': True,
-    'SIGNING_KEY': 'complexsigningkey',  # generate a key and replace me
-    'ALGORITHM': 'HS512',
-}
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-)
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_NAME = 'sessionid'
+SESSION_COOKIE_AGE = 3600

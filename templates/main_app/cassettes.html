@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <style>
+        html {
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+            background: url({% static 'textures/dark-wood.png' %});
+            background-color: #592700;
+        }
+    </style>
+{% endblock %}    
+
+{% block content %}
+    <div class="size-full h-screen text-center">
+        <span class="flex flex-row items-center justify-center">
+            <h1 class="text-yellow-100">Cassettes List</h1>
+            <a class="align-middle ml-1 text-blue-500 hover:underline" href="{% url 'create-cassette' %}">Create Cassette</a>
+        </span>
+
+
+        <ul class="mx-2 text-amber-700 flex flex-col justify-center">
+            {% for cassette in cassettes %}
+                <li class="w-full rounded py-1 flex flex-row justify-between items-center my-1 h-22 shadow-xl"
+                    style="background: url({% static 'textures/green-dust-and-scratches.png' %});
+                    background-color: {{ cassette.color1 }};
+                    background-blend-mode: overlay;">
+                    <!-- <button type="button" class='w-full h-full absolute hover:cursor-pointer'></button> -->
+                    <a type="button" href="{% url 'create-song' cassette.id %}">Create</a>
+                    <div class="relative flex-1 mx-4 text-center max-w-4xl h-full flex items-center justify-center">
+                        <div class="relative w-full">
+                            <h2 class="text-7xl text-black/70 reenie-beanie-regular truncate" style="
+                            background: url({% static 'textures/groovepaper.png' %}); 
+                            background-color: whitesmoke; 
+                            filter: url(#filter_tornpaper);
+                            text-overflow: ellipsis;">{{cassette.title}}</h2>
+                            <div class="absolute left-1/2 bottom-2 transform -translate-x-1/2 h-[2px] bg-gray-400 w-[98%]" style='background-image: url({% static "textures/groovepaper.png" %})'></div>
+                        </div>
+                    </div>
+                    <a type="button" class="text-red-600" href="{% url 'delete-cassette' cassette.id %}">Delete</a>
+                </li>  
+            {% empty %}
+                <p>No cassettes available.</p>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

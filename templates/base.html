@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %} Vibes & Stuff {% endblock %}</title>
+        <link rel="icon" href="{% static 'vibes.png' %}" />
+        <link rel="stylesheet" href="{% static 'cassette-player.css' %}" />
+        <link rel="stylesheet" href="{% static 'base.css' %}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.jsdelivr.net/gh/happy358/TornPaper@v0.0.3/tornpaper.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                new Tornpaper({
+                    filterName: "filter_tornpaper",
+                    seed: 1,
+                    tornFrequency: 0.02,
+                    tornScale: 10,
+                    grungeFrequency: 0.03,
+                    grungeScale: 3
+                });
+            });
+
+            function playSong(source, title, author) {
+                const player = document.getElementById('song-player');
+                if (player) {
+                    document.getElementById('song-title').textContent = title;
+                    document.getElementById('song-author').textContent = author;
+                    player.src = source;
+                    player.play();
+                    console.log('button pressed');
+                } else {
+                    console.error('Audio player element not found');
+                }
+            }
+        </script>
+        {% block extra_head %} {% endblock%}
+    </head>
+    <body>
+        <p> navbar </p>
+        <a href="{% url 'cassettes-list' %}" class='text-blue-500 hover:underline'>Cassettes</a>
+        {% block content %}
+        {% endblock %}
+
+        <div class='mx-2 fixed bottom-px' id="cassette-player">
+            {% include 'cassette-player.html' %}
+        </div>
+    </body>
+</html>
