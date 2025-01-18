@@ -1,43 +1,55 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.views import LogoutView
 from django.contrib import messages
-from django.views.generic import *
+from django.urls import reverse_lazy
+from django.views.generic import FormView, TemplateView, DetailView
+from .models import User
+from .forms import UserCreateForm, UserAuthForm
 
-def logout_view(request):
-    logout(request)
-    return redirect('main-page')
+class CustomLogoutView(LogoutView):
+    next_page = reverse_lazy('main-page')
 
-def register(request):
-    if request.method == 'POST':
-        form = UserCreateForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('main-page')
+class RegisterView(FormView):
+    template_name = 'auth_app/register.html'
+    form_class = UserCreateForm
+    success_url = reverse_lazy('main-page')
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Form is not valid.")
+        return super().form_invalid(form)
+
+class LoginView(FormView):
+    template_name = 'auth_app/login.html'
+    form_class = UserAuthForm
+    success_url = reverse_lazy('main-page')
+
+    def form_valid(self, form):
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+        user = authenticate(self.request, username=username, password=password)
+        if user is not None:
+            login(self.request, user)
+            print("login")
+            return super().form_valid(form)
         else:
-            print("FormNotValid")
-    else:
-        form = UserCreateForm()
+            messages.error(self.request, 'Invalid login or password')
+            return self.form_invalid(form)
 
-    return render(request, 'auth_app/register.html', context = {'form': form})
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+    
+class ProfileView(DetailView):
+    model = User
+    template_name = 'auth_app/profile.html'
 
-def login_user(request):
-    if request.method == 'POST':
-        form = UserAuthForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                print("login")
-                return redirect('main-page')
-            else:
-                messages.error(request, 'invalid login or password')
-    else:
-        form = UserAuthForm()
-
-    return render(request, 'auth_app/login.html', context = {'form': form})
-
-class ForgotPasswordView(TemplateView):
-    template_name = 'auth_app/forgot_password.html'
+    def get_context_data(self, **kwargs):
+        user = self.get_object()
+        context = super().get_context_data(**kwargs)
+        context['current_user'] = self.request.user
+        context['user'] = user
+        return context

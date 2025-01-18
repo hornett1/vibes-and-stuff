@@ -3,4 +3,5 @@
 
 {% block content %}
 <p> this is main page </p>
+<a href="{% url 'profile' user.id %}">{{ user.username }}</a>
 {% endblock %}

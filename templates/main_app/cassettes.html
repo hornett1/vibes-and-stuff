@@ -4,9 +4,24 @@
 {% block extra_head %}
     <style>
         html {
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
-            background: url({% static 'textures/dark-wood.png' %});
-            background-color: #592700;
+            position: relative;
+            
+            overflow: hidden;
+        }
+
+        html::before {
+            content: '';
+            position: absolute;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url({% static 'textures/brick-wall.jpg' %});
+            background-repeat: repeat;
+            background-size: 50%;
+            filter: saturate(1.5) brightness(0.7) contrast(1.15);
+            z-index: -1;
         }
     </style>
 {% endblock %}    
@@ -26,12 +41,12 @@
                     background-color: {{ cassette.color1 }};
                     background-blend-mode: overlay;">
                     <!-- <button type="button" class='w-full h-full absolute hover:cursor-pointer'></button> -->
-                    <a type="button" href="{% url 'create-song' cassette.id %}">Create</a>
+                    {% if user == cassette.uploader%}<a type="button" href="{% url 'create-song' cassette.id %}">Create</a>{% endif %}
                     <div class="relative flex-1 mx-4 text-center max-w-4xl h-full flex items-center justify-center">
                         <div class="relative w-full">
-                            <h2 class="text-7xl text-black/70 reenie-beanie-regular truncate" style="
+                            <h2 class="text-7xl text-black/60 reenie-beanie-regular truncate" style="
                             background: url({% static 'textures/groovepaper.png' %}); 
-                            background-color: whitesmoke; 
+                            background-color: cornsilk; 
                             filter: url(#filter_tornpaper);
                             text-overflow: ellipsis;">{{cassette.title}}</h2>
                             <div class="absolute left-1/2 bottom-2 transform -translate-x-1/2 h-[2px] bg-gray-400 w-[98%]" style='background-image: url({% static "textures/groovepaper.png" %})'></div>

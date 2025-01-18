@@ -40,8 +40,12 @@
         {% block extra_head %} {% endblock%}
     </head>
     <body>
-        <p> navbar </p>
-        <a href="{% url 'cassettes-list' %}" class='text-blue-500 hover:underline'>Cassettes</a>
+        <nav class='flex flex-row p-1 gap-1'>
+            <p> navbar </p>
+            <a href="{% url 'cassettes-list' %}" class='text-blue-500 hover:underline'>Cassettes</a>
+            <a href="{% url 'login' %}" class='text-blue-500 hover:underline'>Login</a>
+            <a href="{% url 'register' %}" class='text-blue-500 hover:underline'>Register</a>
+        </nav>    
         {% block content %}
         {% endblock %}
 

@@ -1,0 +1,20 @@
+.lcd-monitor {
+    font-family: 'LCD Dot';
+    background-color: #3b4d3b; 
+    color: #1c1c1c;
+    text-shadow: 0 0 2px #2e2e2e;
+    text-rendering: geometricPrecision;
+    border: 1px solid #000000;
+    box-shadow: inset 0 0 10px #000000, 3px 3px 3px rgba(0,0,0,0.3);
+    padding: 10px;
+    margin: 20px 0;
+}
+
+.lcd-monitor a::selection,
+.lcd-monitor p::selection, 
+.lcd-monitor a::selection,
+.lcd-monitor::selection {
+    color: #3b4d3b;
+    background-color: #1c1c1c;
+    text-shadow: 0 0 2px #3b4d3b;
+}

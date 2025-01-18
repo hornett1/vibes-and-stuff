@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
     'main_app',
     'auth_app',
     'gallery_app',
@@ -137,3 +138,21 @@ AUTH_USER_MODEL = 'auth_app.User'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_NAME = 'sessionid'
 SESSION_COOKIE_AGE = 3600
+
+# CKEditor Settings
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js' 
+CKEDITOR_CONFIGS = {
+    'default':
+        {
+            'toolbar': [
+                {'name': 'basicstyles', 'items': ['Bold', 'Italic', 'Underline']},
+                {'name': 'paragraph', 'items': ['NumberedList', 'BulletedList']},
+                {'name': 'links', 'items': ['Link', 'Unlink']},
+            ],
+            'width': 'auto',
+            'removePlugins': 'elementspath', 
+            'resize_enabled': False,
+        },
+}
