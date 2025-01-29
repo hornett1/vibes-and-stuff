@@ -2,6 +2,8 @@
 
 
 {% block content %}
-<p> this is main page </p>
-<a href="{% url 'profile' user.id %}">{{ user.username }}</a>
+    <p> this is main page </p>
+    {% if user.is_authenticated %}
+        <a href="{% url 'profile' user.id %}">{{ user.username }}</a>
+    {% endif %}
 {% endblock %}

@@ -3,17 +3,19 @@
 <html lang="en">
     <head>
         <title>{% block title %} Vibes & Stuff {% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="{% static 'vibes.png' %}" />
+        <link rel="stylesheet" href="{% static 'tailwind.css' %}">
         <link rel="stylesheet" href="{% static 'cassette-player.css' %}" />
         <link rel="stylesheet" href="{% static 'base.css' %}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Reenie+Beanie&display=swap" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
-        <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://cdn.jsdelivr.net/gh/happy358/TornPaper@v0.0.3/tornpaper.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
+                // Инициализация TornPaper эффекта
                 new Tornpaper({
                     filterName: "filter_tornpaper",
                     seed: 1,
@@ -24,6 +26,7 @@
                 });
             });
 
+            // Функция для воспроизведения песни
             function playSong(source, title, author) {
                 const player = document.getElementById('song-player');
                 if (player) {
@@ -37,15 +40,19 @@
                 }
             }
         </script>
-        {% block extra_head %} {% endblock%}
+        {% block extra_head %} {% endblock %}
     </head>
     <body>
         <nav class='flex flex-row p-1 gap-1'>
             <p> navbar </p>
             <a href="{% url 'cassettes-list' %}" class='text-blue-500 hover:underline'>Cassettes</a>
+            <a href="{% url 'image-list' %}" class='text-blue-500 hover:underline'>Gallery</a>
             <a href="{% url 'login' %}" class='text-blue-500 hover:underline'>Login</a>
             <a href="{% url 'register' %}" class='text-blue-500 hover:underline'>Register</a>
+            {% if user.is_superuser %}<a href="/admin/" class='text-blue-500 hover:underline'>Admin</a>{% endif %}
         </nav>    
+        
+
         {% block content %}
         {% endblock %}
 

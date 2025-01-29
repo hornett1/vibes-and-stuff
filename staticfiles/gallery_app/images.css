@@ -1,0 +1,33 @@
+.scene {
+  perspective: 600px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+}
+
+.card {
+  position: relative;
+  transition: transform 0.3s;
+  transform-style: preserve-3d;
+}
+
+.card__face {
+  position: absolute;
+  backface-visibility: hidden;
+}
+
+.card__face--back {
+  transform: rotateY( 180deg );
+}
+
+.card.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.polaroid-shadow-inset {
+  position: relative;
+  z-index: 1;
+  box-shadow: inset 0px 0px 30px red;
+}

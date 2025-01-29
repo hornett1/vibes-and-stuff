@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'LCD Dot';
-    src: url('./fonts/lcddot_tr.ttf') format('truetype');
+    src: url('./fonts/lcddot_tr.ttf');
 }
 
 .reenie-beanie-regular {

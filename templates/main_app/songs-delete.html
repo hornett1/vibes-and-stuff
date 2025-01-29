@@ -6,7 +6,8 @@
             {% csrf_token %}
             <p class="text-yellow-100">
                 cID: {{ cassette.id }}
-                sID: {{ song.id }} </p>
+                sID: {{ song.id }} 
+            </p>
             <p class="text-yellow-100">Are you sure?</p>
             <span class="flex flex-row text-yellow-100">
                 <a href="{% url 'cassettes-list' %}" class="mr-1">No</a>

@@ -1,0 +1,12 @@
+{% for image in images %}
+  <li class="bg-white flex flex-col items-center p-4 rounded-lg shadow-lg w-full h-full">
+    <div class="relative bg-gray-100 rounded-lg shadow-md p-4">
+      <img 
+        src="{{ image.image.url }}" 
+        alt="{{ image.title }}" 
+        class="rounded-md shadow w-full object-cover h-[200px]"
+      >
+    </div>
+    <h2 class="mt-4 text-center text-lg font-semibold text-gray-800">{{ image.title }}</h2>
+  </li>
+{% endfor %}

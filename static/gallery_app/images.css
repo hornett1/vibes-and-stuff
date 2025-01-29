@@ -1,0 +1,38 @@
+.grid-images {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-image {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.card {
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+  transform-style: preserve-3d;
+  /* relative transition transform 0.3s ease-in-out */
+}
+
+.card__face {
+  position: absolute;
+  backface-visibility: hidden;
+  /* absolute backface-hidden */
+}
+
+.card__face--back {
+  transform: rotateY( 180deg );
+  /* transform-[rotateY( 180deg )] */
+}
+
+.card.is-flipped {
+  transform: rotateY(180deg);
+
+  /* transform-[rotateY( 180deg )] */
+}
+
+/* .polaroid-shadow-inset {
+  position: relative;
+  z-index: 1;
+  filter: drop_shadow(inset 0px 0px 30px red);
+} */

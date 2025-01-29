@@ -11,6 +11,7 @@ from .models import Song, Cassette
 from django.conf import settings
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, DeleteView, ListView, UpdateView
+from django.core.paginator import Paginator
 
 class MainPageTemplate(TemplateView):
     template_name = 'main-page.html'
@@ -28,12 +29,21 @@ class CassetteListView(View):
             cassettes = Cassette.objects.filter(is_public=True)
             print(f'Guest user, Cassettes count: {cassettes.count()}')
 
+        paginator = Paginator(cassettes, 8)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
         # Печать для отладки
         print(cassettes)
 
         context = {
-            'cassettes': cassettes
+            'cassettes': cassettes,
+            'page_obj': page_obj,
         }
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return render(request, 'main_app/cassettes-list.html', context=context)
+        
         return render(request, self.template_name, context)
     
 class CassetteCreateView(CreateView):
