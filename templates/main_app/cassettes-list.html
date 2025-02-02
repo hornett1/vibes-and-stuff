@@ -32,17 +32,17 @@
                        border-style: dashed;
                        border-spacing: 15px;
                        border-dash-length: 15px;">
-                <div class="grid grid-cols-3 text-center font-semibold text-2xl">
+                <div class="grid grid-cols-3 text-center font-semibold text-3xl">
                     <div class="p-2 border-dashed border-b border-r border-black/60 text-black/60">Title</div>
                     <div class="p-2 border-dashed border-b border-r border-black/60 text-black/60">Author</div>
                     <div class="p-2 border-dashed border-b border-black/60 text-black/60">Duration</div>
                 </div>
             
-                <div class="divide-y divide-black/60 divide-dashed text-xl">
+                <div class="divide-y divide-black/60 divide-dashed text-3xl">
                     {% if user == cassette.uploader %}
                         <form method="POST" action="{% url 'create-song' cassette.id %}">
                             {% csrf_token %}
-                            <div class="grid grid-cols-3 w-full bg-black/60 hover:bg-gray-500 h-7 transition text-left text-[cornsilk] overflow-hidden text-ellipsis line-clamp-1">
+                            <div class="grid grid-cols-3 w-full bg-black/60 hover:bg-gray-500 h-10 transition text-left text-[cornsilk] overflow-hidden text-ellipsis line-clamp-1">
                                 <span class="flex flex-row">
                                     <label for="file-input" class="cursor-pointer">
                                         <i class="fa-solid fa-file-circle-plus mx-2 my-1"></i>
@@ -58,7 +58,7 @@
                     {% endif %}
                     
                     {% for song in cassette.songs.all %}
-                        <button class="grid grid-cols-3 w-full text-gray-200 odd:bg-black/60 odd:text-[cornsilk] even:text-black/60 hover:bg-gray-500 h-7 transition text-left overflow-hidden text-ellipsis line-clamp-1" onclick="playSong('{{song.source|default:'' }}', '{{song.title}}', '{{song.author}}')">
+                        <button class="grid grid-cols-3 w-full text-gray-200 odd:bg-black/60 odd:text-[cornsilk] even:text-black/60 hover:bg-gray-500 h-10 transition text-left overflow-hidden text-ellipsis line-clamp-1" onclick="playSong('{{song.source|default:'' }}', '{{song.title}}', '{{song.author}}')">
                             <div class="overflow-hidden text-ellipsis line-clamp-1"><i class="fa-solid fa-play mx-2"></i>{{ song.title }}</div>
                             <div class="overflow-hidden text-ellipsis line-clamp-1 text-center">{{ song.author }}</div>
                             <div class="overflow-hidden text-ellipsis line-clamp-1">{{ song.source }}</div>
