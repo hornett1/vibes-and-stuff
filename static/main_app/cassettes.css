@@ -1,0 +1,47 @@
+.cassette {
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(0deg);
+    transform-origin: left center;
+    will-change: transform;
+    backface-visibility: hidden;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.face {
+    width: 100%;
+    position: absolute;
+    will-change: transform, visibility;
+    backface-visibility: hidden;
+}
+
+.side {
+    background-color: inherit;
+    transform: translateZ(0);
+}
+
+.back {
+    visibility: hidden;
+    height: 80dvh;
+    transform: rotate3d(1, 0, 0, 270deg);
+    opacity: 0;
+    transition: opacity 0.4s, visibility 0s 0.4s;
+    pointer-events: none;
+}
+
+.cassette.is-flipped {
+    position: fixed; /* Фиксируем позицию */
+    top: 40%;
+    transform: translate(-50%, -50%) rotateX(90deg);
+    transform: rotateX(90deg);
+    z-index: 1000;
+}
+
+.cassette.is-flipped .back {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.4s;
+    pointer-events: auto;
+    z-index: 1001;
+}

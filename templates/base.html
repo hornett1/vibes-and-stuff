@@ -5,12 +5,13 @@
         <title>{% block title %} Vibes & Stuff {% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="{% static 'vibes.png' %}" />
-        <link rel="stylesheet" href="{% static 'tailwind.css' %}">
         <link rel="stylesheet" href="{% static 'cassette-player.css' %}" />
         <link rel="stylesheet" href="{% static 'base.css' %}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Reenie+Beanie&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/7283992a6b.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
         <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
         <script src="https://cdn.jsdelivr.net/gh/happy358/TornPaper@v0.0.3/tornpaper.min.js"></script>
         <script>
@@ -26,18 +27,31 @@
                 });
             });
 
-            // Функция для воспроизведения песни
             function playSong(source, title, author) {
                 const player = document.getElementById('song-player');
-                if (player) {
-                    document.getElementById('song-title').textContent = title;
-                    document.getElementById('song-author').textContent = author;
-                    player.src = source;
-                    player.play();
-                    console.log('button pressed');
-                } else {
+                const titleElement = document.getElementById('song-title');
+                const authorElement = document.getElementById('song-author');
+
+                if (!player) {
                     console.error('Audio player element not found');
+                    return;
                 }
+
+                if (!source || source === "-") {
+                    console.warn("Invalid source, stopping playback.");
+                    player.pause();
+                    player.src = "";
+                    titleElement.textContent = "-------";
+                    authorElement.textContent = "-----";
+                    return;
+                }
+
+                titleElement.textContent = title;
+                authorElement.textContent = author;
+                player.src = '/media/' + source;
+
+                player.play().catch(error => console.error("Playback failed:", error));
+                console.log(`Playing: ${title} by ${author} (${source})`);
             }
         </script>
         {% block extra_head %} {% endblock %}
@@ -47,6 +61,7 @@
             <p> navbar </p>
             <a href="{% url 'cassettes-list' %}" class='text-blue-500 hover:underline'>Cassettes</a>
             <a href="{% url 'image-list' %}" class='text-blue-500 hover:underline'>Gallery</a>
+            {% comment %} <a href="{% url 'topic-list' %}" class='text-blue-500 hover:underline'>Forum</a> {% endcomment %}
             <a href="{% url 'login' %}" class='text-blue-500 hover:underline'>Login</a>
             <a href="{% url 'register' %}" class='text-blue-500 hover:underline'>Register</a>
             {% if user.is_superuser %}<a href="/admin/" class='text-blue-500 hover:underline'>Admin</a>{% endif %}

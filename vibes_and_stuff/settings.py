@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'main_app',
     'auth_app',
     'gallery_app',
+    # 'forum_app',
 ]
 
 MIDDLEWARE = [

@@ -1,23 +1,68 @@
 {% load static %}
 
 {% for cassette in page_obj %}
-    <li class="w-full rounded py-1 flex flex-row justify-between items-center my-1 h-22 shadow-xl"
+    <li class="cassette w-full relative rounded py-1 my-1 shadow-xl h-22 max-h-80"
         style="background: url({% static 'textures/green-dust-and-scratches.png' %});
         background-color: {{ cassette.color1 }};
-        background-blend-mode: overlay;">
-        <!-- <button type="button" class='w-full h-full absolute hover:cursor-pointer'></button> -->
-        {% if user == cassette.uploader %}<a type="button" href="{% url 'create-song' cassette.id %}">Create</a>{% endif %}
-        <div class="relative flex-1 mx-4 text-center max-w-4xl h-full flex items-center justify-center">
-            <div class="relative w-full">
-                <h2 class="text-7xl text-black/60 reenie-beanie-regular truncate" style="
-                background: url({% static 'textures/groovepaper.png' %}); 
-                background-color: cornsilk; 
-                filter: url(#filter_tornpaper);">{{cassette.title}}</h2>
-                <div class="absolute left-1/2 bottom-2 transform -translate-x-1/2 h-[2px] bg-gray-400/50 w-[98%]" style='background-image: url({% static "textures/groovepaper.png" %})'></div>
+        background-blend-mode: overlay;
+        z-index: 4;">
+        <div class="face side w-full flex flex-row justify-between items-center">
+            <div class="relative w-full flex-1 mx-4 text-center h-full flex items-center justify-center">
+                    <h2 class="text-7xl w-full  text-black/60 reenie-beanie-regular overflow-hidden text-ellipsis line-clamp-1" style="
+                    background: url({% static 'textures/groovepaper.png' %}); 
+                    background-color: cornsilk; 
+                    filter: url(#filter_tornpaper);">{{ cassette.title }}</h2>
+                    <div class="absolute left-1/2 bottom-2 transform -translate-x-1/2 h-[2px] bg-gray-400/50 w-[98%]" style='background-image: url({% static "textures/groovepaper.png" %})'></div>
             </div>
+            <button type="button" class="w-full h-full absolute hover:cursor-pointer toggler"></button>
         </div>
-        <a type="button" class="text-red-600" href="{% url 'delete-cassette' cassette.id %}">Delete</a>
+        <div class="face back rounded bg-gray-900 text-white">
+            <button class="hider w-full hover:bg-gray-500 h-7 transition text-center bg-gray-700 text-gray-200"><i class="fa-solid fa-arrow-up"></i></button>
+            <div class="flex flex-row mx-2">
+                {% if user == cassette.uploader %}
+                    <p>{{cassette.title}} - {{cassette.author}}</p>
+                    <p class="text-xs text-gray-400">uploaded by {{cassette.uploader}}</p>
+                    <a type="button" class="text-red-600" href="{% url 'delete-cassette' cassette.id %}"><i class="fa-solid fa-trash bg-red"></i></a>
+                {% endif %}
+            </div>
+            <div class="container px-10 w-full">
+                <div class="grid grid-cols-3 bg-gray-900 text-white text-center font-semibold text-xs">
+                    <div class="p-2 border-b border-gray-600">Title</div>
+                    <div class="p-2 border-b border-gray-600">Author</div>
+                    <div class="p-2 border-b border-gray-600 ">Duration</div>
+                </div>
+            
+                <div class="divide-y divide-gray-600">
+                    {% if user == cassette.uploader %}
+                        <form method="POST" action="{% url 'create-song' cassette.id %}">
+                            {% csrf_token %}
+                            <div class="grid grid-cols-3 w-full text-gray-200 bg-gray-700 hover:bg-gray-500 h-7 transition text-left overflow-hidden text-ellipsis line-clamp-1">
+                                <span class="flex flex-row">
+                                    <label for="file-input" class="cursor-pointer">
+                                        <i class="fa-solid fa-file-circle-plus mx-2 my-1"></i>
+                                    </label>
+                                    <input type="file" id="file-input" class="hidden">
+                                    <input class="overflow-hidden text-ellipsis line-clamp-1 placeholder:italic" placeholder="Song Title">
+                                </span>
+                                <input class="overflow-hidden text-ellipsis line-clamp-1 text-center placeholder:italic" placeholder="Song Author">
+                                <button type="submit">Submit</button>
+                                <!-- <input class="overflow-hidden text-ellipsis line-clamp-1"> -->
+                            </div>
+                        </form>
+                    {% endif %}
+                    
+                    {% for song in cassette.songs.all %}
+                    <button class="grid grid-cols-3 w-full text-gray-200 odd:bg-gray-700 even:bg-gray-900 hover:bg-gray-500 h-7 transition text-left overflow-hidden text-ellipsis line-clamp-1" onclick="playSong('{{song.source|default:'' }}', '{{song.title}}', '{{song.author}}')">
+                        <div class="overflow-hidden text-ellipsis line-clamp-1"><i class="fa-solid fa-play mx-2"></i>{{ song.title }}</div>
+                        <div class="overflow-hidden text-ellipsis line-clamp-1 text-center">{{ song.author }}</div>
+                        <div class="overflow-hidden text-ellipsis line-clamp-1">{{ song.source }}</div>
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>                     
+        </div>
     </li>  
 {% empty %}
     <p>No cassettes available.</p> 
 {% endfor %}
+

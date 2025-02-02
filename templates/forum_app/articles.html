@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <form method="POST" action="{% url 'article-add' topic.id %}"> 
+        {% csrf_token %}
+        <input type="text" name="title" id="title">
+    </form>
+
+    {% for article in articles %}
+        <div class="flex flex-row py-1">
+            <a href="{% url 'article-list' article.id %}">{{article.title}}</a>
+            <button class="rounded-md w-auto h-25 bg-blue-500 mx-2">Delete</button>
+        </div>
+    {% empty %}
+        <p>No articles yet.</p>
+    {% endfor %}
+{% endblock %}

@@ -51,25 +51,21 @@ class AddComment(SuccessMessageMixin, CreateView):
 
 class CreateImageView(CreateView):
     model = Image
-    fields = '__all__'
+    fields = ['title', 'image', 'downloadable']
     template_name = 'gallery_app/images.html'
     success_url = reverse_lazy('images-list')
 
-    def form_valid(self, form):
-        if self.request.user.is_authenticated:
-            form.instance.author = self.request.user
-        else:
-            return HttpResponseForbidden("You must be logged in to create an image.")
-        
-        image = form.save()
+    def post(self, request, *args, **kwargs):
+        print("POST data:", request.POST)  # Данные формы (без файлов)
+        print("FILES data:", request.FILES)  # Файлы (если есть)
 
-        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({
-                'image': image.image.url, 
-                'title': image.title,
-            })
+        form = self.get_form()
+        if form.is_valid():
+            instance = form.save()
+            return JsonResponse({"message": "Изображение загружено!", "id": instance.id})
         
-        return super().form_valid(form)
+        return JsonResponse({"errors": form.errors}, status=400)
+
 
 
     # def form_valid(self, form):

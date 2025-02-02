@@ -8,12 +8,13 @@ class Topic(models.Model): #section
 class Article(models.Model): #theme
     title = models.CharField(max_length=100)
     content = RichTextUploadingField(max_length=10000)
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='related_topic')
     sender = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Message(models.Model): #message
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='related_article')
     content = RichTextUploadingField(max_length=10000)
     sender = models.ForeignKey(User, on_delete=models.CASCADE,)
+    date = models.DateTimeField(auto_now_add=True)
 
 

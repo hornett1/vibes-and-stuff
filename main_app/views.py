@@ -54,7 +54,6 @@ class CassetteCreateView(CreateView):
     success_url = reverse_lazy('cassettes-list')
 
     def form_valid(self, form):
-        # Устанавливаем uploader равным текущему авторизованному пользователю
         if self.request.user.is_authenticated:
             form.instance.uploader = self.request.user
         else:
@@ -84,6 +83,21 @@ class CassetteCreateView(CreateView):
 
     #     return super().form_invalid(form)
 
+class CassettesUpdateView(UpdateView):
+    model = Cassette
+    context_object_name = 'cassette'
+    fields = '__all__'
+    template_name ='main_app/cassettes-update.html'
+    success_url = reverse_lazy('cassettes-list')
+
+    def form_valid(self, form):
+        if self.request.user.is_authenticated:
+            form.instance.uploader = self.request.user
+        else:
+            return HttpResponseForbidden("You must be logged in to create a cassette.")
+        
+        return super().form_valid(form)
+
 class CassettesDeleteView(DeleteView):
     model = Cassette
     context_object_name = 'cassette'
@@ -112,6 +126,24 @@ class SongsDeleteView(DeleteView):
     model = Song
     context_object_name = 'song'
     template_name ='main_app/songs-delete.html'
+    success_url = reverse_lazy('cassettes-list')
+
+    def form_valid(self, form):
+        if not self.request.user.is_authenticated:
+                return HttpResponseForbidden("You must be logged in to upload a song.")
+        return super().form_valid(form)
+    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        song = self.get_object()
+        context['cassette'] = song.cassette
+        return context
+
+class SongsUpdateView(UpdateView):
+    model = Song
+    context_object_name = 'song'
+    template_name ='main_app/songs-update.html'
     success_url = reverse_lazy('cassettes-list')
 
     def form_valid(self, form):

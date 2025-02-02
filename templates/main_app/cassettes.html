@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block extra_head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'main_app/cassettes.css' %}">
     <style>
         html, body {
             height: 100%;
@@ -32,7 +33,7 @@
 {% endblock %}    
 
 {% block content %}
-    <div class="size-full h-screen text-center">
+    <div class="container mx-auto size-full h-screen text-center perspective-distant relative">
         <span class="flex flex-row items-center justify-center">
             <h1 class="text-yellow-100">Cassettes List</h1>
             <a class="align-middle ml-1 text-blue-500 hover:underline" href="{% url 'create-cassette' %}">Create Cassette</a>
@@ -47,4 +48,5 @@
     <input type="hidden" id="block" value="{{page_obj.number}}"> 
     <input type="hidden" id="blocks" value="{{page_obj.paginator.num_pages}}"> 
     <script src="{% static 'scripts/endless-list.js' %}"></script>
+    <script src="{% static 'scripts/main_app/cassettes.js' %}"></script>
 {% endblock %}

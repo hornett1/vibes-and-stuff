@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <form method="POST" action="{% url 'topic-add' %}">
+        {% csrf_token %}
+        <input type="text" name="title" id="title">
+    </form>
+
+    {% for topic in topics %}
+        <div class="flex flex-row py-1">
+            <a href="{% url 'article-list' topic.id %}">{{topic.title}}</a>
+            <button class="rounded-md w-auto h-25 bg-blue-500 mx-2">Delete</button>
+        </div>
+    {% endfor %}
+{% endblock %}

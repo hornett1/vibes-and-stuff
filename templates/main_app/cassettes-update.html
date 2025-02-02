@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <form method='POST' action="{% url 'update-cassette' cassette.id %}">
+            {% csrf_token %}
+                <input type="checkbox" name="is_public" id="is_public" aria-label="Public?">
+                <input type="text" name="title" id="title" value="{{cassette.title}}">
+                <input type="text" name="author" id="author" value="{{cassette.author}}">
+                <input type="text" name="description" id="description" value="{{cassette.author}}">
+                <input type="color" name="color1" id="color1" value="{{cassette.color1}}">
+                <input type="color" name="color2" id="color2" value="{{cassette.color2}}">
+                <input type="color" name="color3" id="color3" value="{{cassette.color3}}">
+                <input type="color" name="accent_color" id="accent_color" value="{{cassette.accent_color}}">
+                <button type="submit" class="rounded bg-blue-500 h-10 w-25">Submit</button>
+        </form>
+    </div>
+{% endblock %}

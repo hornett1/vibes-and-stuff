@@ -25,6 +25,8 @@ urlpatterns = [
     path('', include('auth_app.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('gallery/', include('gallery_app.urls')),
+    # path('forum/', include('forum_app.urls')),
+    
 ]
 
 if settings.DEBUG:
