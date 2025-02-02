@@ -11,7 +11,7 @@
                     <h2 class="text-7xl w-full text-black/60 reenie-beanie-regular overflow-hidden text-ellipsis line-clamp-1" style="
                     background: url({% static 'textures/groovepaper.png' %}); 
                     background-color: cornsilk; 
-                    filter: url(#filter_tornpaper);">{{ cassette.title }}</h2>
+                    filter: url(#filter_tornpaper) drop-shadow(0 3px 4px rgba(0,0,0,0.5));">{{ cassette.title }}</h2>
                     <div class="absolute left-1/2 bottom-2 transform -translate-x-1/2 h-[2px] bg-gray-400/50 w-[98%]" style='background-image: url({% static "textures/groovepaper.png" %})'></div>
             </div>
             <button type="button" class="w-full h-full absolute hover:cursor-pointer toggler"></button>
@@ -25,13 +25,10 @@
                     <a type="button" class="text-red-600" href="{% url 'delete-cassette' cassette.id %}"><i class="fa-solid fa-trash bg-red"></i></a>
                 {% endif %}
             </div>
-            <div class="container px-10 w-2/3 h-2/3 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-dashed border-2 border-black/60" 
+            <div class="container px-10 w-2/4 h-2/3 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" 
                 style="background: url({% static 'textures/groovepaper.png' %}); 
                        background-color: cornsilk; 
-                       filter: url(#filter_tornpaper);
-                       border-style: dashed;
-                       border-spacing: 15px;
-                       border-dash-length: 15px;">
+                       filter: url(#filter_tornpaper) drop-shadow(0 10px 15px rgba(0,0,0,0.5));">
                 <div class="grid grid-cols-3 text-center font-semibold text-3xl">
                     <div class="p-2 border-dashed border-b border-r border-black/60 text-black/60">Title</div>
                     <div class="p-2 border-dashed border-b border-r border-black/60 text-black/60">Author</div>
