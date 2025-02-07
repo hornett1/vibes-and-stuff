@@ -1,0 +1,70 @@
+{% load static %}
+
+<section class="w-full shrink-0 max-w-[70%] snap-center aspect-[102/64] shadow-xl px-8 pt-7 rounded-2xl" style="background: url({% static 'textures/concrete-wall-2.png' %});
+background-color: {{cassette.color1}};
+background-blend-mode: overlay;">
+    <div class="paper w-full h-4/5 rounded-lg" style="background: url({% static 'textures/clean-gray-paper.png' %}); background-color: cornsilk;">
+        <p>{{cassette.title}}</p>
+        <div id="center-row" class="w-full relative top-1/2 -translate-y-1/2 h-4/11 bg-gray-800">
+            <div class="w-full h-1/3" style="background: url({% static 'textures/clean-gray-paper.png' %}); background-color: {{cassette.color2}};"></div>
+            <div class="w-full h-1/3" style="background: url({% static 'textures/clean-gray-paper.png' %}); background-color: {{cassette.color3}};"></div>
+            <div class="w-full h-1/3" style="background: url({% static 'textures/clean-gray-paper.png' %}); background-color: {{cassette.accent_color}};"></div>
+            <div class="w-2/3 h-full absolute left-1/2 -translate-x-1/2 top-0 rounded-full" style="box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); background: url({% static 'textures/concrete-wall-2.png' %});
+            background-color: {{cassette.color1}};
+            background-blend-mode: overlay;">
+                <div class="absolute left-0 inset-y-0 mx-[4%] my-auto aspect-square w-1/5 rounded-full bg-black overflow-hidden" style="box-shadow: inset 0 0 5px rgba(0,0,0,0.5);">
+                    <svg class="" width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="100" cy="100" r="97" fill="none" stroke="cornsilk" stroke-width="10"/>
+                        <g transform="translate(100,100)">
+                            <g id="tooth">
+                            <rect x="-10" y="-100" width="25" height="25" fill="cornsilk"/>
+                            </g>
+                            <use href="#tooth" transform="rotate(60)"/>
+                            <use href="#tooth" transform="rotate(120)"/>
+                            <use href="#tooth" transform="rotate(180)"/>
+                            <use href="#tooth" transform="rotate(240)"/>
+                            <use href="#tooth" transform="rotate(300)"/>
+                        </g>
+                    </svg>
+                </div>
+                <!-- <div class="absolute left-1/2 -translate-x-1/2 w-1/5 aspect-square bg-red-500 my-auto inset-y-0"></div> -->
+                <div class="absolute right-0 inset-y-0 mx-[4%] my-auto aspect-square w-1/5 bg-black overflow-hidden rounded-full" style="box-shadow: inset 0 0 5px rgba(0,0,0,0.5);">
+                    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <filter id="inset-shadow" x="-50%" y="-50%" width="200%" height="200%">
+                                <feComponentTransfer in="SourceAlpha">
+                                    <feFuncA type="table" tableValues="1 0"/>
+                                </feComponentTransfer>
+                                <feGaussianBlur stdDeviation="4"/>
+                                <feOffset dx="4" dy="4" result="offsetblur"/>
+                                <feFlood flood-color="black" result="color"/>
+                                <feComposite in2="offsetblur" operator="in"/>
+                                <feComposite in2="SourceAlpha" operator="in" />
+                                <feComposite in2="color" operator="in" />
+                            </filter>
+                        </defs>
+                        <circle cx="100" cy="100" r="97" fill="none" stroke="cornsilk" stroke-width="10"/>
+                        <g transform="translate(100,100)" >
+                            <g id="tooth">
+                                <rect x="-10" y="-100" width="25" height="25" fill="cornsilk"/>
+                            </g>
+                            <use href="#tooth" transform="rotate(60)"/>
+                            <use href="#tooth" transform="rotate(120)"/>
+                            <use href="#tooth" transform="rotate(180)"/>
+                            <use href="#tooth" transform="rotate(240)"/>
+                            <use href="#tooth" transform="rotate(300)"/>
+                            <use href="#tooth" transform="rotate(360)"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>                                       
+        </div>
+    </div>
+    <div class="mx-auto trapezoid w-9/12 h-1/5" style="background: url({% static 'textures/concrete-wall-2.png' %});
+    background-color: {{cassette.color1}};
+    background-blend-mode: overlay;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5)">
+    </div>
+    <!-- <div class="rounded-full w-8 aspect-square bg-black/70 -translate-y-9 translate-x-21"></div>
+    <div class="rounded-full w-8 aspect-square bg-black/70 -translate-y-17 translate-x-80"></div> -->
+</section>

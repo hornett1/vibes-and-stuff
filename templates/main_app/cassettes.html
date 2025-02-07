@@ -3,9 +3,10 @@
 
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{% static 'main_app/cassettes.css' %}">
+    {% include 'main_app/gsap-init.html' %}
     <style>
         html, body {
-            height: 100%;
+            height: 100vh;
             margin: 0;
             overflow: auto;
         }
@@ -30,17 +31,12 @@
             z-index: -1;
         }
     </style>
-{% endblock %}    
+{% endblock %}
 
 {% block content %}
-    <div class="container mx-auto size-full h-screen text-center perspective-distant relative">
-        <span class="flex flex-row items-center justify-center">
-            <h1 class="text-yellow-100">Cassettes List</h1>
-            <a class="align-middle ml-1 text-blue-500 hover:underline" href="{% url 'create-cassette' %}">Create Cassette</a>
-        </span>
-
-
-        <ul class="mx-2 text-amber-700 flex flex-col justify-center" id='list'>
+    <div class="w-dvw h-dvh text-center">
+        <!-- <a class="align-middle ml-1 text-blue-500 hover:underline" href="{% url 'create-cassette' %}">Create Cassette</a> -->
+        <ul class="gallery">
             {% include 'main_app/cassettes-list.html' %}
         </ul>
     </div>
@@ -49,4 +45,5 @@
     <input type="hidden" id="blocks" value="{{page_obj.paginator.num_pages}}"> 
     <script src="{% static 'scripts/endless-list.js' %}"></script>
     <script src="{% static 'scripts/main_app/cassettes.js' %}"></script>
+    <script type="text/javascript" src="{% static 'scripts/main_app/cassettes-scroll.js' %}"></script>
 {% endblock %}

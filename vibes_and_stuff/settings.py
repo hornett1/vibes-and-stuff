@@ -130,7 +130,7 @@ STATIC_ROOT = 'staticfiles/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'  # Adjust this path as necessary
+MEDIA_ROOT = BASE_DIR / 'media' 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -141,7 +141,7 @@ AUTH_USER_MODEL = 'auth_app.User'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_NAME = 'sessionid'
-SESSION_COOKIE_AGE = 3600
+SESSION_COOKIE_AGE = 604800
 
 # CKEditor Settings
 CKEDITOR_UPLOAD_PATH = 'uploads/'

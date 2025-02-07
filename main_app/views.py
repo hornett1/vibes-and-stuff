@@ -29,7 +29,7 @@ class CassetteListView(View):
             cassettes = Cassette.objects.filter(is_public=True)
             print(f'Guest user, Cassettes count: {cassettes.count()}')
 
-        paginator = Paginator(cassettes, 8)
+        paginator = Paginator(cassettes, 1)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
