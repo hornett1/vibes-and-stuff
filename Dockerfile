@@ -19,4 +19,4 @@ RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-ENTRYPOINT [ "gunicorn", "vibes-and-stuff.wsgi", "-b", "0.0.0.0:8000"]
+ENTRYPOINT [ "gunicorn", "vibes_and_stuff.wsgi", "-b", "0.0.0.0:8000"]
