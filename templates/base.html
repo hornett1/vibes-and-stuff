@@ -8,46 +8,20 @@
         <link rel="stylesheet" href="{% static 'cassette-player.css' %}" />
         <link rel="stylesheet" href="{% static 'base.css' %}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Reenie+Beanie&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Permanent+Marker&family=Reenie+Beanie&display=swap&family=Frijole&display=swap" rel="stylesheet">
         <script src="https://kit.fontawesome.com/7283992a6b.js" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
         <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
         <!-- <script src="https://cdn.jsdelivr.net/gh/happy358/TornPaper@v0.0.3/tornpaper.min.js"></script> -->
         <script src="{% static 'scripts/tornpaper.js' %}"></script>
         <script type="module" src="https://unpkg.com/metallicss@4.0.3/dist/metallicss.min.js"></script>
+        <script type="module" src="https://unpkg.com/metallicss@4.0.3/dist/metallicss.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const paperEffect = new TornPaper();
                 document.querySelectorAll(".torn-effect").forEach(el => paperEffect.applyTo(el));
             });
-
-            function playSong(source, title, author) {
-                const player = document.getElementById('song-player');
-                const titleElement = document.getElementById('song-title');
-                const authorElement = document.getElementById('song-author');
-
-                if (!player) {
-                    console.error('Audio player element not found');
-                    return;
-                }
-
-                if (!source || source === "-") {
-                    console.warn("Invalid source, stopping playback.");
-                    player.pause();
-                    player.src = "";
-                    titleElement.textContent = "-------";
-                    authorElement.textContent = "-----";
-                    return;
-                }
-
-                titleElement.textContent = title;
-                authorElement.textContent = author;
-                player.src = '/media/' + source;
-
-                player.play().catch(error => console.error("Playback failed:", error));
-                console.log(`Playing: ${title} by ${author} (${source})`);
-            }
         </script>
         {% block extra_head %} {% endblock %}
     </head>

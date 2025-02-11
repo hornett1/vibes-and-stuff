@@ -1,13 +1,14 @@
-<div class="fixed bottom-0 rounded-xl w-1/4 bg-gray-500 h-2/4 object-bottom left-1/2 -translate-x-1/2 invisible" style="z-index: 9999;">
+{% load static %}
+
+<div class="fixed bottom-0 rounded-xl w-1/4 bg-gray-500 h-2/4 object-bottom left-1/2 -translate-x-1/2" style="z-index: 9999;">
     <div class='lcd-monitor rounded-xl'>
         <span class="flex flex-col gap-0 p-0">
             <p class='text-xl/6 m-0 font-bold' id="song-title">-------</p>
-            <p class='text-lg/6 m-0' id="song-author">-----</p>
+            <p class='text-lg/6 m-0 mt-0' id="song-author">-----</p>
         </span>
         
         <audio controls src="" id="song-player"></audio>
         <p class='text-center text-sm'></p>
-        <button class="w-10 h-5 rounded bg-black" onclick='playSong("-","mortal man","kdot")'>Test</button>
         <!-- h-[1cap] aspect-square для иконок-->
     </div>
 
@@ -20,4 +21,61 @@
         <a href="{% url 'register' %}" class='text-blue-500 hover:underline'>Register</a>
         {% if user.is_superuser %}<a href="/admin/" class='text-blue-500 hover:underline'>Admin</a>{% endif %}
     </nav>    
+
+    <div class="radio-input">
+        <label class="label w-1/6">
+          <div class="back-side"></div>
+          <input type="radio" id="value-1" name="play-pause-radio" value="value-1" />
+          <span class="text">
+            <i class="fa-solid fa-play absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-3xl"></i>
+          </span>
+          <span class="bottom-line"></span>
+        </label>
+      
+        <label class="label w-1/6">
+          <div class="back-side"></div>
+          <input type="radio" id="value-2" name="play-pause-radio" value="value-2" />
+          <span class="text">
+            <i class="fa-solid fa-pause absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-3xl"></i>
+          </span>
+          <span class="bottom-line"></span>
+        </label>
+
+        <label class="label w-1/6">
+            <div class="back-side"></div>
+            <input type="checkbox" id="value-3" value="value-3" />
+            <span class="text">
+              <i class="fa-solid fa-repeat absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-3xl"></i>
+            </span>
+            <span class="bottom-line"></span>
+        </label>
+
+        <label class="label w-1/6">
+            <div class="back-side"></div>
+            <input type="checkbox" id="value-4" value="value-4" />
+            <span class="text">
+              <i class="fa-solid fa-shuffle absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-3xl"></i>
+            </span>
+            <span class="bottom-line"></span>
+        </label>
+
+        <label class="label w-1/6">
+            <div class="back-side"></div>
+            <input type="button" id="value-5" value="value-5" />
+            <span class="text">
+              <i class="fa-solid fa-backward absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-3xl"></i>
+            </span>
+            <span class="bottom-line"></span>
+        </label>
+
+        <label class="label w-1/6">
+            <div class="back-side"></div>
+            <input type="button" id="value-6" value="value-6" />
+            <span class="text">
+              <i class="fa-solid fa-forward absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-3xl"></i>
+            </span>
+            <span class="bottom-line"></span>
+        </label>
+    </div>      
 </div>
+<script src="{% static 'scripts/main_app/audio-player.js' %}"></script>

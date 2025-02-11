@@ -7,10 +7,6 @@
     font-family: "Reenie Beanie", serif;
     font-weight: 400;
     font-style: normal;
-    letter-spacing: 0.05em;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
-    background: url(./textures/groovepaper.png);
-    background-clip: text;
 }
 
 .indie-flower-regular {
@@ -21,4 +17,22 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
     background: url(./textures/groovepaper.png);
     background-clip: text;
-  }
+}
+
+.permanent-marker-regular {
+    font-family: "Permanent Marker", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.frijole-regular {
+    font-family: "Frijole", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.avatar-cap {
+    size: 1cap;
+    aspect-ratio: 1/1;
+}
+  

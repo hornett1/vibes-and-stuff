@@ -1,8 +1,40 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <style>
+        body {
+            background-image: url({% static 'textures/dark-wood.png' %});
+            background-color: #855e42;
+        }
+    </style>
+
+    <script>
+        function clipboard() {
+            var text = document.getElementById("username").innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Copied to clipboard:' + text);
+            }, function() {
+                alert('Failed to copy to clipboard.');
+            });
+        }
+    </script>
+{% endblock %}
 
 {% block content %}
-    <span class="flex flex-row gap-1">
-        <img class='rounded-full size-10 aspect-square bg-gray-500 drop-shadow-xl' src='{{ user.avatar.url }}'>
-        <p class='text-2xl font-bold'>@{{ user.username }}</p>
-    </span>
+    <div class="relative">
+        <div class="bg-gray-500 h-40 w-full flex" style="box-shadow: inset 0 0 7px rgba(0,0,0, 0.5);"></div>
+        <section class="absolute left-5 top-20 flex flex-row">
+            <img class='size-40 rounded-full' src='{{ user.avatar.url }}' style="box-shadow: 0 0 7px rgba(0,0,0,0.5)">
+            <article>
+                <p id="username" class='text-4xl text-yellow-950 font-bold mt-21 ml-1 select-none cursor-pointer bg-[cornsilk] torn-effect' style="text-shadow: 0 1px 1px rgba(255,255,255, 0.5), 0 0 1px rgba(255,255,255, 0.5)" onclick="clipboard()">@{{ user.username }}</p>
+            </article>
+        </section>
+        <div class="px-5">
+            <article class="mt-25 bg-[cornsilk] torn-effect reenie-beanie-regular p-5 w-[600px]">
+                <label for="about" class='text-3xl text-yellow-950 font-bold mb-2 select-none'>About</label>
+                <p id="about" class='text-5xl text-yellow-950 break-all'>{{user.about}}</p>
+            </article>
+        </div>
+    </div>
 {% endblock %}
