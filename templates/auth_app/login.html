@@ -1,20 +1,28 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block extra_head %}
+  <link rel="stylesheet" type="text/css" href="{% static 'auth_app/auth.css' %}">
+{% endblock %}
+
 {% block content %}
-  <div class="w-1/3 bg-gray-200 rounded-lg">
-    <form method="post" action="{% url 'login' %}">
-      {%csrf_token%}
-      <div class="mx-2">
-        <p class="mb-0" style="font-weight: 500;">Username</p>
-        <input type="text" name="username" class="mb-1 w-full h-5 bg-white rounded-md" id="floatingInput">
-        <span class="flex flex-row justify-between">
-          <p class="mb-0" style="font-weight: 500;">Password</p>
-          <a href="#" class="ml-5" style="color: #007AFF; font-size: 12px; text-decoration: none;">Forgot password?</a>
-        </span>
-        <input type="password" name="password" class="auth-input mb-0 w-full h-5 bg-white rounded-md" id="floatingPassword">
-        <button type="submit" class="w-full h-5 bg-blue-500 mt-1 text-xs text-white font-bold rounded-md">Login</button>
-        <p>Have no account? <a href="{% url 'register'%}">Register here!</a></p>
-      </div>
-    </form>
+  <div class="flex justify-center items-center min-h-screen">
+    <div class="window w-1/3">
+      <form method="post" action="{% url 'login' %}" class="window-body">
+        {% csrf_token %}
+        <div class="mx-2">
+          <p class="mb-0 font-bold text-black">Username</p>
+          <input type="text" name="username" class="input-text-style mb-1 w-full h-6 required:border-red-500 invalid:border-red-600" id="floatingInput" required>
+          <span class="flex flex-row justify-between items-center">
+            <p class="mb-0 font-bold text-black">Password</p>
+            <a href="#" class="ml-5 text-blue-600 text-xs no-underline">Forgot password?</a>
+          </span>
+          <input type="password" name="password" class="input-password-style auth-input mb-2 w-full h-6 required:border-red-500 invalid:border-red-600" id="floatingPassword" required>
+          <button type="submit" class="button-style text-sm text-black">Login</button>
+          <p class="mt-2">Have no account? <a href="{% url 'register' %}" class="text-blue-600 no-underline">Register here!</a></p>
+        </div>
+      </form>
+    </div>
   </div>
 {% endblock %}

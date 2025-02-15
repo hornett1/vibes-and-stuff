@@ -33,29 +33,16 @@
 {% endblock %}
 
 {% block content %}
-    <div class="grid-images container mx-auto p-10 bg-gray-100">
-        <form onsubmit="postImage(event)">
-            <div class="grid image">
-                <input type="file" id="image" name="image">
-                <input type="text" id="title" name="title">
-                <button type="submit" class="rounded bg-blue-500 h-10 w-25">Submit</button>
-            </div>
-        </form>
+    <div class="grid grid-cols-4 gap-9 px-auto m-5" style="grid-template-rows: 55% auto;">
         {% for image in images %}
-            <div class="grid-image bg-[#E9E9E9] rounded-lg shadow-lg overflow-hidden">
-                <img 
-                    src="{{ image.image.url }}" 
-                    alt="{{ image.title }}" 
-                    class="w-auto h-auto object-cover"
-                >
-                <h2 class="mt-2 text-center text-lg font-semibold text-gray-800 p-2">
+            <div class="size-full relative aspect-square bg-gray-300 px-4 py-5">
+                <img src="{{ image.image.url }}" alt="{{ image.description }}" class="object-cover relative w-full h-[80%]">
+                <div class="text-5xl relative text-start overflow-hidden text-ellipsis whitespace-nowrap mt-4 permanent-marker-regular">
                     {{ image.title }}
-                </h2>
-        </div>
+                </div>
+            </div>
         {% endfor %}
-        </div>
     </div>
-  
   
 
     <script src='{% static "scripts/gallery_app/images.js" %}'></script>

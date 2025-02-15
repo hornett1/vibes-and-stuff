@@ -1,14 +1,13 @@
 {% load static %}
 
-<div class="fixed bottom-0 rounded-xl w-1/4 bg-gray-500 h-2/4 object-bottom left-1/2 -translate-x-1/2" style="z-index: 9999;">
+<div class="fixed bottom-0 rounded-xl w-1/4 bg-gray-500 hidden h-2/4 object-bottom left-1/2 -translate-x-1/2" style="z-index: 9999;">
     <div class='lcd-monitor rounded-xl'>
-        <span class="flex flex-col gap-0 p-0">
-            <p class='text-xl/6 m-0 font-bold' id="song-title">-------</p>
-            <p class='text-lg/6 m-0 mt-0' id="song-author">-----</p>
+        <span class="flex flex-col gap-0 p-0 m-1">
+            <p class='text-4xl/6 m-0 font-bold' id="song-title">-------</p>
+            <p class='text-2xl/6 m-0 mt-0' id="song-author">-----</p>
         </span>
         
-        <audio controls src="" id="song-player"></audio>
-        <p class='text-center text-sm'></p>
+        <audio autoplay controls src="" id="song-player"></audio>
         <!-- h-[1cap] aspect-square для иконок-->
     </div>
 

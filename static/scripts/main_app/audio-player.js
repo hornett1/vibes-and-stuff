@@ -14,175 +14,142 @@ let currentSongIndex = 0;
 let isRepeat = false;
 let isShuffle = false;
 
-function preloadAudio(source) {
-    return new Promise((resolve, reject) => {
-        const audio = new Audio('/media/' + source);
-        audio.addEventListener('canplaythrough', () => {
-            resolve(source);
-        }, { once: true });
-        audio.addEventListener('error', reject);
-    });
+function savePlayerState() {
+    localStorage.setItem('playerState', JSON.stringify({
+        source: audioPlayer.src.replace(window.location.origin, ''),
+        title: songTitle?.textContent || '',
+        author: songAuthor?.textContent || '',
+        time: audioPlayer.currentTime,
+        isPlaying: !audioPlayer.paused,
+        isRepeat,
+        isShuffle
+    }));
 }
 
-function loadPlaylistFromCassette(cassetteElement) {
-    const songButtons = cassetteElement.querySelectorAll('button[onclick^="playSong"]');
-    currentPlaylist = Array.from(songButtons).map(button => {
-        try {
-            const onclickStr = button.getAttribute('onclick');
-            const params = onclickStr.match(/playSong\('([^']*)',\s*'([^']*)',\s*'([^']*)'/);
-            
-            if (!params || params.length < 4) {
-                console.log('Invalid onclick format:', onclickStr);
-                return null;
-            }
+function loadPlayerState() {
+    const savedState = JSON.parse(localStorage.getItem('playerState'));
+    if (savedState?.source) {
+        audioPlayer.src = savedState.source;
+        if (songTitle) songTitle.textContent = savedState.title;
+        if (songAuthor) songAuthor.textContent = savedState.author;
+        audioPlayer.currentTime = savedState.time || 0;
+        isRepeat = savedState.isRepeat;
+        isShuffle = savedState.isShuffle;
+        repeatBtn.checked = isRepeat;
+        shuffleBtn.checked = isShuffle;
 
-            return {
-                source: params[1],
-                title: params[2],
-                author: params[3],
-                element: button
-            };
-        } catch (error) {
-            console.log('Error parsing button:', error);
-            return null;
-        }
-    }).filter(song => song !== null);
-    
-    if (currentPlaylist.length > 0) {
-        currentPlaylist.slice(0, 3).forEach(song => {
-            preloadAudio(song.source)
-                .catch(error => console.log('Preload failed:', error));
-        });
+        audioPlayer.play()
     }
 }
 
-function playSong(source, title, author, buttonElement = null) {
+function playSong(source, title, author) {
     if (!audioPlayer) return;
-    
-    if (buttonElement) {
-        const cassetteElement = buttonElement.closest('section.cassette');
-        if (cassetteElement) {
-            loadPlaylistFromCassette(cassetteElement);
-            currentSongIndex = currentPlaylist.findIndex(song => 
-                song && song.source === source
-            );
-        }
-        
-        if (currentPlaylist[currentSongIndex + 1]) {
-            preloadAudio(currentPlaylist[currentSongIndex + 1].source)
-                .catch(error => console.log('Preload failed:', error));
-        }
-    }
     
     audioPlayer.src = '/media/' + source;
     if (songTitle) songTitle.textContent = title;
     if (songAuthor) songAuthor.textContent = author;
-    
-    audioPlayer.play().catch(error => {
-        console.log('Error playing song:', error);
-        playBtn.checked = false;
-        pauseBtn.checked = true;
-    });
+
+    audioPlayer.play()
+
+    savePlayerState();
 }
 
 function handlePlay() {
-    if (playBtn.checked && audioPlayer.paused) {
-        audioPlayer.play().catch(error => {
-            console.log('Error playing:', error);
-            playBtn.checked = false;
-            pauseBtn.checked = true;
-        });
+    if (audioPlayer.paused) {
+        audioPlayer.play()
     }
+    savePlayerState();
 }
 
 function handlePause() {
-    if (pauseBtn.checked && !audioPlayer.paused) {
+    if (!audioPlayer.paused) {
         audioPlayer.pause();
     }
+    savePlayerState();
 }
 
 function playNext() {
     if (currentPlaylist.length === 0) return;
 
-    if (isShuffle) {
-        let newIndex;
-        do {
-            newIndex = Math.floor(Math.random() * currentPlaylist.length);
-        } while (newIndex === currentSongIndex);
-        currentSongIndex = newIndex;
-    } else {
-        currentSongIndex = (currentSongIndex + 1) % currentPlaylist.length;
-    }
+    currentSongIndex = isShuffle
+        ? Math.floor(Math.random() * currentPlaylist.length)
+        : (currentSongIndex + 1) % currentPlaylist.length;
 
     const nextSong = currentPlaylist[currentSongIndex];
-    playSong(nextSong.source, nextSong.title, nextSong.author, nextSong.element);
+    playSong(nextSong.source, nextSong.title, nextSong.author);
 }
 
 function playPrev() {
     if (currentPlaylist.length === 0) return;
-    
-    if (isShuffle) {
-        currentSongIndex = Math.floor(Math.random() * currentPlaylist.length);
-    } else {
-        currentSongIndex = (currentSongIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
-    }
-    
+
+    currentSongIndex = isShuffle
+        ? Math.floor(Math.random() * currentPlaylist.length)
+        : (currentSongIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+
     const prevSong = currentPlaylist[currentSongIndex];
-    playSong(prevSong.source, prevSong.title, prevSong.author, prevSong.element);
+    playSong(prevSong.source, prevSong.title, prevSong.author);
 }
 
 function toggleRepeat() {
     isRepeat = !isRepeat;
     audioPlayer.loop = isRepeat;
+    savePlayerState();
 }
 
 function toggleShuffle() {
     isShuffle = !isShuffle;
+    savePlayerState();
+}
+
+function updatePlayPauseButtons() {
+    if (audioPlayer.paused) {
+        playBtn.classList.add('active');
+        pauseBtn.classList.remove('active');
+    } else {
+        playBtn.classList.remove('active');
+        pauseBtn.classList.add('active');
+    }
 }
 
 function initializeEventListeners() {
-    if (playBtn) playBtn.addEventListener('change', handlePlay);
-    if (pauseBtn) pauseBtn.addEventListener('change', handlePause);
+    if (playBtn) playBtn.addEventListener('click', handlePlay);
+    if (pauseBtn) pauseBtn.addEventListener('click', handlePause);
+
     if (repeatBtn) repeatBtn.addEventListener('change', toggleRepeat);
     if (shuffleBtn) shuffleBtn.addEventListener('change', toggleShuffle);
     if (prevBtn) prevBtn.addEventListener('click', playPrev);
     if (nextBtn) nextBtn.addEventListener('click', playNext);
-    
+
     if (audioPlayer) {
+        audioPlayer.addEventListener('timeupdate', savePlayerState);
         audioPlayer.addEventListener('ended', () => {
-            if (isRepeat) {
-                audioPlayer.play().catch(error => console.log('Playback failed:', error));
-            } else {
-                playNext();
-            }
+            if (!isRepeat) playNext();
         });
-
         audioPlayer.addEventListener('play', () => {
-            playBtn.checked = true;
-            pauseBtn.checked = false;
+            savePlayerState();
+            updatePlayPauseButtons();
         });
-
         audioPlayer.addEventListener('pause', () => {
-            playBtn.checked = false;
-            pauseBtn.checked = true;
+            savePlayerState();
+            updatePlayPauseButtons();
         });
     }
 }
 
 function initPlayer() {
     if (!audioPlayer) return;
-    
+
     audioPlayer.volume = 0.5;
-    if (audioPlayer.paused) {
-        playBtn.checked = false;
-        pauseBtn.checked = true;
-    } else {
-        playBtn.checked = true;
-        pauseBtn.checked = false;
-    }
     initializeEventListeners();
+    loadPlayerState();
+
+    audioPlayer.play().then(() => {
+        updatePlayPauseButtons();
+    }).catch(error => {
+        console.log('Autoplay was prevented:', error);
+    });
+
+    updatePlayPauseButtons();
 }
 
-if (document.getElementById('song-player')) {
-    document.addEventListener('DOMContentLoaded', initPlayer);
-} 
+document.addEventListener('DOMContentLoaded', initPlayer);
