@@ -5,10 +5,12 @@ background-color: {{cassette.color1}};
 background-blend-mode: overlay;
 box-shadow: inset 0.2rem 0.2rem 6px rgba(255,255,255, 0.5)">
     <a href="{% url 'delete-cassette' cassette.id %}" class="absolute right-0 top-0 m-1.5 rounded-full size-6.5 bg-gray-300 metallicss" style="--convexity: 2; --metal: neutral;">
-        <i class="fa-solid fa-scissors text-red-800"></i>
+        {% if user == cassette.uploader  %}<i class="fa-solid fa-scissors text-red-800"></i>
+        {% else %}<i class="fa-solid fa-plus"></i>
+        {% endif %}
     </a>
     <div class="paper w-full h-4/5 rounded-lg" style="background: url({% static 'textures/clean-gray-paper.png' %}); background-color: cornsilk; box-shadow: 0.2rem 0.2rem 6px rgba(255,255,255, 0.5)">
-        <article class="absolute left-1/2 -translate-x-1/2 max-h-4/11 truncate" style="z-index: 400;">
+        <article class="absolute left-1/2 -translate-x-1/2 w-full px-5 max-h-4/11 truncate" style="z-index: 400;">
             <p class="permanent-marker-regular text-7xl truncate">{{cassette.title}}</p>
             <p class="permanent-marker-regular text-black/80 text-5xl truncate">{{cassette.author}}</p>
             <span class="permanent-marker-regular text-red-500/60">

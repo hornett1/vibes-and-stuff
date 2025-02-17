@@ -22,19 +22,48 @@
 {% endblock %}
 
 {% block content %}
-    <div class="relative">
-        <div class="bg-gray-500 h-40 w-full flex" style="box-shadow: inset 0 0 7px rgba(0,0,0, 0.5);"></div>
-        <section class="absolute left-5 top-20 flex flex-row">
-            <img class='size-40 rounded-full' src='{{ user.avatar.url }}' style="box-shadow: 0 0 7px rgba(0,0,0,0.5)">
-            <article>
-                <p id="username" class='text-4xl text-yellow-950 font-bold mt-21 ml-1 select-none cursor-pointer bg-[cornsilk] torn-effect' style="text-shadow: 0 1px 1px rgba(255,255,255, 0.5), 0 0 1px rgba(255,255,255, 0.5)" onclick="clipboard()">@{{ user.username }}</p>
+    <div class="relative" style="scroll-snap-type: y mandatory; overflow-y: scroll; height: 100vh;">
+        {% if user == profile_user %}<a href="{% url 'banner' profile_user.id %}" class="bg-gray-500 h-40 w-full flex hover:opacity-50 transition ease-in-out duration-300 delay-300" style="box-shadow: inset 0 0 7px rgba(0,0,0, 0.5); scroll-snap-align: start; background-image: url({{profile_user.banner.url}}); background-size: cover;"></a>
+        {% else %}<div class="bg-gray-500 h-40 w-full flex" style="box-shadow: inset 0 0 7px rgba(0,0,0, 0.5); scroll-snap-align: start; background-image: url({{profile_user.banner.url}}); background-size: cover;"></div>
+        {% endif %}
+        <section class="absolute left-5 top-20 flex flex-row" style="scroll-snap-align: start;">
+            {% if user == profile_user %}<a href="{% url 'avatar' profile_user.id %}"><img class='size-40 rounded-full hover:opacity-50 transition ease-in-out duration-300 delay-300' src='{{ profile_user.avatar.url }}' style="box-shadow: 0 0 7px rgba(0,0,0,0.5)"></a>
+            {% else %}<img class='size-40 rounded-full' src='{{ profile_user.avatar.url }}' style="box-shadow: 0 0 7px rgba(0,0,0,0.5)">
+            {% endif %}
+            <article class="flex flex-row">
+                <p id="username" class='text-4xl text-yellow-950 h-[2.45rem] font-bold mt-21 ml-1 select-none cursor-pointer torn-effect' style="text-shadow: 0 1px 1px rgba(255,255,255, 0.5), 0 0 1px rgba(255,255,255, 0.5); background-color: cornsilk; background-image: url({% static 'textures/groovepaper.png' %})" onclick="clipboard()">@{{ profile_user.username }}</p>
+                {% if user == profile_user %}
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                        <i class="fa-solid fa-right-from-bracket text-red-500 mt-21 ml-3 text-4xl text-yellow-950 torn-effect" style="text-shadow: 0 1px 1px rgba(255,255,255, 0.5), 0 0 1px rgba(255,255,255, 0.5); background-color: cornsilk; background-image: url({% static 'textures/groovepaper.png' %})"></i>
+                    </button>
+                </form>
+                {% endif %}
             </article>
         </section>
-        <div class="px-5">
-            <article class="mt-25 bg-[cornsilk] torn-effect reenie-beanie-regular p-5 w-[600px]">
-                <label for="about" class='text-3xl text-yellow-950 font-bold mb-2 select-none'>About</label>
-                <p id="about" class='text-5xl text-yellow-950 break-all w-full'>{{user.about}}</p>
-            </article>
+        <div class="flex flex-row" style="scroll-snap-align: start;">
+            <div class="px-5">
+                <article class="mt-25 torn-effect reenie-beanie-regular p-5 w-full" style="background-color: cornsilk; background-image: url({% static 'textures/groovepaper.png' %})">
+                    <label for="about" class='text-3xl text-yellow-950 font-bold mb-2 select-none'>About</label>
+                    <p id="about" class='text-5xl text-yellow-950 break-all'>{{profile_user.about}}</p>
+                </article>
+            </div>
+        </div>
+        <div class="px-5 px-auto text-center w-full overflow-x-auto" style="scroll-snap-align: start;">
+            <ul class="flex flex-row mt-6 space-x-4">
+                {% include 'main_app/cassettes-list.html' %}
+            </ul>
+        </div>
+        <div class="grid grid-cols-4 gap-9 px-auto m-5" style="grid-template-rows: 55% auto; scroll-snap-align: start;">
+            {% for image in images %}
+                <div class="size-full relative aspect-square bg-gray-300 px-4 py-5">
+                    <img src="{{ image.image.url }}" alt="{{ image.description }}" class="object-cover relative w-full h-[80%]">
+                    <div class="text-5xl relative text-start overflow-hidden text-ellipsis whitespace-nowrap mt-4 permanent-marker-regular">
+                        {{ image.title }}
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

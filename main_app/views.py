@@ -50,16 +50,15 @@ class CassetteCreateView(CreateView):
     model = Cassette
     context_object_name = 'cassette'
     fields = '__all__'
-    template_name = 'main_app/cassettes-create.html'
+    template_name = 'main_app/cassettes.html'
     success_url = reverse_lazy('cassettes-list')
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             form.instance.uploader = self.request.user
+            return super().form_valid(form)
         else:
             return HttpResponseForbidden("You must be logged in to create a cassette.")
-        
-        return super().form_valid(form)
 
     # def form_valid(self, form):
     #     messages.success(self.request, "Cassette added successfully.")

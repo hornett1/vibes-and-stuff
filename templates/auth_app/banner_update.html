@@ -1,0 +1,6 @@
+<form method="POST" enctype="multipart/form-data" action="{% url 'banner' profile_user.id %}">
+    {% csrf_token %}
+    {{ form }}
+    
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+</form>

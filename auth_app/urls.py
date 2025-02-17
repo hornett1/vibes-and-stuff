@@ -6,4 +6,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name="login"),
     path('register/', RegisterView.as_view(), name = "register"),
     path('profile/<int:pk>/', ProfileView.as_view(), name="profile"),
+    path('profile/<int:pk>/update/banner', BannerUpdateView.as_view(), name='banner'),
+    path('profile/<int:pk>/update/avatar', AvatarUpdateView.as_view(), name='avatar')
 ]
