@@ -80,7 +80,6 @@ function playNext() {
 }
 
 function playPrev() {
-    if (currentPlaylist.length === 0) return;
 
     currentSongIndex = isShuffle
         ? Math.floor(Math.random() * currentPlaylist.length)

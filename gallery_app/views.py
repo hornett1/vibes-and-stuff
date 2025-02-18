@@ -55,17 +55,6 @@ class CreateImageView(CreateView):
     template_name = 'gallery_app/images.html'
     success_url = reverse_lazy('images-list')
 
-    def post(self, request, *args, **kwargs):
-        print("POST data:", request.POST)  # Данные формы (без файлов)
-        print("FILES data:", request.FILES)  # Файлы (если есть)
-
-        form = self.get_form()
-        if form.is_valid():
-            instance = form.save()
-            return JsonResponse({"message": "Изображение загружено!", "id": instance.id})
-        
-        return JsonResponse({"errors": form.errors}, status=400)
-
 
 
     # def form_valid(self, form):

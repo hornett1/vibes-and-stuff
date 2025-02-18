@@ -1,28 +1,34 @@
 {% load static %}
 
-<div id="cassette-player" class="fixed bottom-0 rounded-xl w-1/4 bg-gray-500 max-h-2/4 object-bottom left-1/2 -translate-x-1/2 transition duration-300 delay-200 ease-in-out" style="z-index: 9999;">
-    <div id="lcd-monitor" class='lcd-monitor rounded-xl'>
+<div id="cassette-player" class="fixed bottom-2 p-2 rounded-xl w-full md:w-1/4 bg-[#2a2a2a] max-h-3/4 object-bottom left-1/2 -translate-x-1/2 transition duration-300 delay-200 ease-in-out" style="z-index: 9999; box-shadow: 0 0 5px rgba(0,0,0,0.5), inset 0.2rem 0.2rem 4px rgba(255,255,255,0.3)">
+    
+    <div id="lcd-monitor" class='lcd-monitor rounded-lg mb-2 h-28'>
         <span class="flex flex-col gap-0 p-0 m-1">
             <p class='text-4xl/6 m-0 font-bold' id="song-title">-------</p>
             <p class='text-2xl/6 m-0 mt-0' id="song-author">-----</p>
         </span>
         
         <audio controls src="" id="song-player"></audio>
-        <!-- h-[1cap] aspect-square для иконок-->
     </div>
 
-    <nav class='flex flex-row p-1 gap-1'>
-        <a href="{% url 'main-page' %}"> navbar </a>
-        <button type="button" id="expand">Expand</button>
-        <a href="{% url 'cassettes-list' %}" class='text-blue-500 hover:underline'>Cassettes</a>
-        <a href="{% url 'image-list' %}" class='text-blue-500 hover:underline'>Gallery</a>
+    <nav class='flex flex-row p-1 gap-1 rounded-lg bg-black text-gray-300 text-center align-center'>
+        <a href="{% url 'main-page' %}" class='bg-[#2a2a2a] border-[1px] border-t-[#383838] text-black p-1 rounded-md flex-grow flex items-center justify-center' style="text-shadow: -1px -1px 1px rgb(224, 224, 224, 0.1);"> 
+          <img src="{% static 'vibes.png' %}" class="size-[1.5rem]">
+        </a>
+        <a href="{% url 'cassettes-list' %}" class='bg-[#2a2a2a] border-[1px] border-t-[#383838] text-black p-1 rounded-md flex-grow' style="text-shadow: -1px -1px 1px rgb(224, 224, 224, 0.1);">Cassettes</a>
+        <a href="{% url 'image-list' %}" class='bg-[#2a2a2a] border-[1px] border-t-[#383838] text-black p-1 rounded-md flex-grow' style="text-shadow: -1px -1px 1px rgb(224, 224, 224, 0.1);">Gallery</a>
         {% comment %} <a href="{% url 'topic-list' %}" class='text-blue-500 hover:underline'>Forum</a> {% endcomment %}
-        <a href="{% url 'login' %}" class='text-blue-500 hover:underline'>Login</a>
-        <a href="{% url 'register' %}" class='text-blue-500 hover:underline'>Register</a>
-        {% if user.is_superuser %}<a href="/admin/" class='text-blue-500 hover:underline'>Admin</a>{% endif %}
+        {% if user.is_authenticated %}
+          <a href="{% url 'profile' user.id %}" class='bg-[#2a2a2a] border-[1px] border-t-[#383838] text-black px-1 rounded-md flex-grow flex items-center justify-center' style="text-shadow: -1px -1px 1px rgb(224, 224, 224, 0.1);">{{user.username}}
+            <img src="{{user.avatar.url}}" class="size-[1.5rem] rounded-sm ml-auto">
+          </a>
+        {% else %}
+        <a href="{% url 'login' %}" class='bg-[#2a2a2a] border-[1px] border-t-[#383838] text-black p-1 rounded-md flex-grow' style="text-shadow: -1px -1px 1px rgb(224, 224, 224, 0.1);">Login</a>
+        <a href="{% url 'register' %}" class='bg-[#2a2a2a] border-[1px] border-t-[#383838] text-black p-1 rounded-md flex-grow' style="text-shadow: -1px -1px 1px rgb(224, 224, 224, 0.1);">Register</a>
+        {% endif %}
     </nav>    
 
-    <div class="radio-input">
+    <div class="radio-input mt-2">
         <label class="label w-1/6">
           <div class="back-side"></div>
           <input type="radio" id="value-1" name="play-pause-radio" value="value-1" />

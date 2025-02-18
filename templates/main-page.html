@@ -1,16 +1,29 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block extra_head %}
+    <style>
+        body {
+            background-image: url({% static 'textures/dark-wood.png' %});
+            background-color: #855e42;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
-    <main>
-        <p> this is main page </p>
-        {% if user.is_authenticated %}
-            <a href="{% url 'profile' user.id %}">{{ user.username }}</a>
-        {% endif %} 
+    <main class="p-3 w-full md:w-3/4 text-center">
+        <p class="torn-effect  reenie-beanie-regular text-7xl p-4" style="text-shadow: 0 1px 1px rgba(255,255,255, 0.5), 0 0 1px rgba(255,255,255, 0.5); background-color: cornsilk; background-image: url({% static 'textures/groovepaper.png' %})" >
+            <b>Vibes & Stuff</b> - rewind the feeling
+
+        </p>
+        <p class="torn-effect reenie-beanie-regular text-5xl p-6" style="text-shadow: 0 1px 1px rgba(255,255,255, 0.5), 0 0 1px rgba(255,255,255, 0.5); background-color: cornsilk; background-image: url({% static 'textures/groovepaper.png' %})" >
+            Don't waste your time reading this, just dive into nostalgia.
+
+        </p>
     </main> 
     
-    <footer class="text-center">
-        <p>vibesandstuff.nostalgic@gmail.com</p>
-        <p class="text-xs">We are not responsible for copyright infringements related to user-uploaded content. In the event of a copyright violation, the content will be deleted upon request.</p>
+    <footer class="text-center absolute bottom-0 w-full" style="box-shadow: inset 0 0.5rem 30px rgba(0,0,0,0.5)">
+        <p class="text-yellow-100 font-bold">vibesandstuff.nostalgic@gmail.com</p>
+        <p class="text-xs text-yellow-100">We are not responsible for copyright infringements related to user-uploaded content. In the event of a copyright violation, the content will be deleted upon request.</p>
     </footer>
 {% endblock %}
