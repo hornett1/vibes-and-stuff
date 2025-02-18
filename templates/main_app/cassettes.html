@@ -36,6 +36,7 @@
     <div class="w-full h-full text-center">
         <ul class="gallery h-dvh p-5 gap-5 pb-15 perspective-midrange" id="carousel">
             <!-- Cassette Section (Ghost Cassette) -->
+             {% if user.is_authenticated %}
                 <form method="POST" action="{% url 'create-cassette' %}" id="body" class="relative w-full shrink-0 max-w-[70%] snap-center aspect-[102/64] shadow-xl px-8 pt-7 rounded-2xl" style="background: url({% static 'textures/concrete-wall-2.png' %});
                 background-color: black;
                 background-blend-mode: overlay;
@@ -93,6 +94,7 @@
                     background-blend-mode: overlay;
                     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), inset 0.2rem 0.2rem 6px rgba(255,255,255, 0.5)">
                 </form>
+            {% endif %}
             {% include 'main_app/cassettes-list.html' %}
         </ul>
     </div>
