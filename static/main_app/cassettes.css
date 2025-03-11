@@ -11,6 +11,11 @@ html, body {
     scroll-snap-type: x mandatory;
 }
 
+.gallery::-webkit-scrollbar {
+    display: none;
+}
+
+
 .paper {
     position: relative;
     overflow: hidden;

@@ -1,6 +1,7 @@
+import json
 import os
 from django.contrib import messages
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from django.forms import BaseModelForm
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
@@ -21,11 +22,9 @@ class CassetteListView(View):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            # Получаем кассеты, доступные для публичного просмотра или принадлежащие текущему пользователю
             cassettes = Cassette.objects.filter(is_public=True) | Cassette.objects.filter(uploader=request.user)
             print(f'Authenticated user: {request.user}, Cassettes count: {cassettes.count()}')
         else:
-            # Получаем только публичные кассеты для неавторизованных пользователей
             cassettes = Cassette.objects.filter(is_public=True)
             print(f'Guest user, Cassettes count: {cassettes.count()}')
 
@@ -33,7 +32,6 @@ class CassetteListView(View):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
-        # Печать для отладки
         print(cassettes)
 
         context = {
@@ -49,8 +47,8 @@ class CassetteListView(View):
 class CassetteCreateView(CreateView):
     model = Cassette
     context_object_name = 'cassette'
-    fields = '__all__'
-    template_name = 'main_app/cassettes.html'
+    fields = ['title', 'author', 'color1', 'color2', 'color3', 'accent_color']
+    template_name = 'main_app/cassettes-create.html'
     success_url = reverse_lazy('cassettes-list')
 
     def form_valid(self, form):
@@ -96,6 +94,32 @@ class CassettesUpdateView(UpdateView):
             return HttpResponseForbidden("You must be logged in to create a cassette.")
         
         return super().form_valid(form)
+    
+    def post(self, request, *args, **kwargs):
+        """ Обрабатывает AJAX-запрос и сохраняет изменения. """
+        cassette = get_object_or_404(Cassette, pk=kwargs["pk"])
+
+        if not request.user.is_authenticated:
+            return JsonResponse({"error": "Unauthorized"}, status=403)
+
+        try:
+            data = json.loads(request.body)
+            if "title" in data:
+                cassette.title = data.get("title", cassette.title)
+
+            if "author" in data:
+                cassette.author = data.get("author", cassette.author)
+
+            if "is_public" in data:
+                cassette.is_public = data.get("is_public", cassette.is_public)
+            cassette.save()
+            return JsonResponse({"status": "success", "new_data": {
+                "title": cassette.title,
+                "author": cassette.author,
+                "is_public": cassette.is_public,
+            }})
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
 
 class CassettesDeleteView(DeleteView):
     model = Cassette

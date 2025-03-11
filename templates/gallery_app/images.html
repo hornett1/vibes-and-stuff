@@ -35,12 +35,9 @@
 {% block content %}
     <div class="md:grid md:grid-cols-4 md:gap-9 px-auto m-5 flex flex-col gap-6" style="grid-template-rows: 55% auto;">
         {% if user.is_authenticated %}
-            <form method="POST" enctype="multipart/form-data" action="{% url 'add-image' %}" class="size-full border-3 border-dashed border-gray-300 relative aspect-square bg-transparent px-4 py-5">
-                {% csrf_token %}
-                <input type="file" class="object-cover border-3 border-dashed border-gray-300 relative w-full h-[80%]">
-                <input type="text" placeholder="Add Image" class="text-5xl text-gray-300 relative text-start overflow-hidden text-ellipsis whitespace-nowrap mt-4 permanent-marker-regular">
-                <button type="submit">Submit</button>
-            </form>
+            <button onclick="window.location.href='{% url 'add-image' %}'" class="size-full border-3 border-dashed border-gray-300 relative aspect-square bg-transparent px-4">
+                <div class="object-cover border-3 border-dashed border-gray-300 relative w-full h-[80%]"></div>
+            </button>
         {% endif %}
         {% for image in images %}
             <div class="size-full relative aspect-square bg-gray-300 px-4 py-5">

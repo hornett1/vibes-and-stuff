@@ -35,66 +35,9 @@
 {% block content %}
     <div class="w-full h-full text-center">
         <ul class="gallery h-dvh p-5 gap-5 pb-15 perspective-midrange" id="carousel">
-            <!-- Cassette Section (Ghost Cassette) -->
-             {% if user.is_authenticated %}
-                <form method="POST" action="{% url 'create-cassette' %}" id="body" class="relative w-full shrink-0 max-w-[70%] snap-center aspect-[102/64] shadow-xl px-8 pt-7 rounded-2xl" style="background: url({% static 'textures/concrete-wall-2.png' %});
-                background-color: black;
-                background-blend-mode: overlay;
-                box-shadow: inset 0.2rem 0.2rem 6px rgba(255,255,255, 0.5)">
-                    {% csrf_token %}
-                    <button type="submit" class="absolute right-0 top-0 m-1.5 rounded-full size-6.5 bg-gray-300 metallicss" style="--convexity: 2; --metal: neutral;"><i class="fa-solid fa-check"></i></button>
-                    <!-- <input type="color" class="absolute left-0 top-0 size-full" style="z-index: 1"> -->
-                    <div class="w-full h-4/5 rounded-lg bg-[cornsilk]" style="background: url({% static 'textures/clean-gray-paper.png' %}); background-color: cornsilk; box-shadow: 0.2rem 0.2rem 6px rgba(255,255,255, 0.5);">
-                        <div class="flex flex-col absolute left-1/2">
-                            <input spellcheck="false" type="text" id="title" name="title" class="cassette-title permanent-marker-regular text-7xl left-1/2 -translate-x-1/2 truncate text-black placeholder:text-black placeholder:text-center text-center" placeholder="Cassette Title" style="z-index: 400">
-                            <input spellcheck="false" type="text" id="author" name="author" class="cassette-title permanent-marker-regular text-3xl left-1/2 -translate-x-1/2 truncate text-black/80 placeholder:text-black/80 placeholder:text-center text-center" placeholder="Cassette Author" style="z-index: 400">
-                        </div>
-                        <div id="center-row" class="cassette-controls w-full relative top-1/2 -translate-y-1/2 h-4/11">
-                            <div id="island" class="cassette-reel w-2/3 h-full absolute left-1/2 -translate-x-1/2 top-0 rounded-full" style="box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), inset 0.2rem 0.2rem 6px rgba(255,255,255, 0.5); background: url({% static 'textures/concrete-wall-2.png' %});
-                            background-color: black;
-                            background-blend-mode: overlay;">
-                                <div class="reel-left absolute left-0 inset-y-0 mx-[4%] my-auto aspect-square w-1/5 rounded-full bg-black overflow-hidden" style="box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);">
-                                    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="100" cy="100" r="97" fill="none" stroke="cornsilk" stroke-width="10"/>
-                                        <g transform="translate(100, 100)">
-                                            <g id="toothghost">
-                                                <rect x="-10" y="-100" width="25" height="25" fill="cornsilk"/>
-                                            </g>
-                                            <use href="#toothghost" transform="rotate(60)"/>
-                                            <use href="#toothghost" transform="rotate(120)"/>
-                                            <use href="#toothghost" transform="rotate(180)"/>
-                                            <use href="#toothghost" transform="rotate(240)"/>
-                                            <use href="#toothghost" transform="rotate(300)"/>
-                                        </g>
-                                    </svg>
-                                </div>
-                                <div class="reel-right absolute right-0 inset-y-0 mx-[4%] my-auto aspect-square w-1/5 bg-black overflow-hidden rounded-full" style="box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);">
-                                    <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="100" cy="100" r="97" fill="none" stroke="cornsilk" stroke-width="10"/>
-                                        <g transform="translate(100, 100)">
-                                            <g id="toothghost">
-                                                <rect x="-10" y="-100" width="25" height="25" fill="cornsilk"/>
-                                            </g>
-                                            <use href="#toothghost" transform="rotate(60)"/>
-                                            <use href="#toothghost" transform="rotate(120)"/>
-                                            <use href="#toothghost" transform="rotate(180)"/>
-                                            <use href="#toothghost" transform="rotate(240)"/>
-                                            <use href="#toothghost" transform="rotate(300)"/>
-                                            <use href="#toothghost" transform="rotate(360)"/>
-                                        </g>
-                                    </svg>
-                                </div>
-                            </div>                                       
-                            <input type="color" name="color2" id="color2" class="w-full h-1/3 p-0 m-0 cursor-pointer" value="#000000" style="z-index: 9999">
-                            <input type="color" name="color3" id="color3" class="w-full h-1/3 p-0 m-0 cursor-pointer" value="#000000" style="z-index: 9999">
-                            <input type="color" name="accent_color" id="accent_color" class="w-full h-1/3 p-0 m-0 cursor-pointer" value="#000000" style="z-index: 9999">
-                        </div>
-                    </div>
-                    <input type="color" id="color1" class="mx-auto trapezoid w-9/12 h-1/5" style="background: url({% static 'textures/concrete-wall-2.png' %});
-                    background-blend-mode: overlay;
-                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), inset 0.2rem 0.2rem 6px rgba(255,255,255, 0.5)">
-                </form>
-            {% endif %}
+            <li class="relative w-full shrink-0 max-w-[12%] snap-center h-[98%] px-8 pt-7 bg-blue-500 window">
+                <a class="window-body text-7xl w-full h-full" href="{% url 'create-cassette' %}">+</a>
+            </li>
             {% include 'main_app/cassettes-list.html' %}
         </ul>
     </div>
@@ -116,5 +59,7 @@
                 island.style.backgroundColor = colorPicker.value;
             });
         });
+
+        var csrf_token = '{{ csrf_token }}';
     </script>
 {% endblock %}
