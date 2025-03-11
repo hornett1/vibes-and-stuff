@@ -35,4 +35,9 @@
     size: 1cap;
     aspect-ratio: 1/1;
 }
-  
+
+.rubik-storm-regular {
+    font-family: "Rubik Storm", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}

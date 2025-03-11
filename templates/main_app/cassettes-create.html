@@ -3,46 +3,40 @@
 
 {% block extra_head %}
 <style>
-    html {
-        box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
-        background: url({% static 'textures/dark-wood.png' %});
-        background-color: #592700;
+    body {
+        background-color: #008080;
     }
 </style>
 {% endblock %}   
 
 {% block content %}
-<div class="max-w-md mx-auto p-6 bg-yellow-100 text-white rounded-lg shadow-lg mt-36 overflow-hidden">
-    <span class='flex flex-row'>
-        <a href='#' class="text-2xl mb-4 text-amber-700">&#8678;</a>
-        <h1 class="text-2xl mb-4 text-amber-700">Add a New Cassette</h1>
-    </span>
-    <form method="POST" action="{% url 'create-cassette' %}" class="space-y-4">
+<div class="mx-auto window mt-36 overflow-hidden w-1/3">
+    <form method="POST" action="{% url 'create-cassette' %}" class="space-y-4 window-body">
         {% csrf_token %}
         <div>
-            <label for="title" class="block text-sm font-medium text-amber-700">Title</label>
-            <input id="title" name="title" type="text" required class="w-full p-2 bg-amber-700 rounded border border-gray-600 focus:outline-none focus:ring focus:ring-yellow-500 text-yellow-100" />
+            <label for="title" class="block text-sm font-medium">Title</label>
+            <input id="title" name="title" type="text" required class="input-text-style w-full p-2" />
         </div>
         <div>
-            <label for="author" class="block text-sm font-medium text-amber-700">Author</label>
-            <input id="author" name="author" type="text" required class="w-full p-2 bg-amber-700 rounded border border-gray-600 focus:outline-none focus:ring focus:ring-yellow-500 text-yellow-100" />
+            <label for="author" class="block text-sm font-medium">Author</label>
+            <input id="author" name="author" type="text" required class="input-text-style w-full p-2" />
         </div>
         <div>
-            <label for="description" class="block text-sm font-medium text-amber-700">Description</label>
-            <textarea id="description" name="description" class="w-full p-2 bg-amber-700 rounded border border-gray-600 focus:outline-none focus:ring focus:ring-yellow-500 text-yellow-100"></textarea>
+            <label for="description" class="block text-sm font-medium">Description</label>
+            <textarea id="description" name="description" class="input-text-style w-full p-2"></textarea>
         </div>
         <div>
             <label for='is_public'>Public</label>
             <input type="checkbox" id="is_public" name="is_public" class="form-checkbox ml-3 text-yellow-100" />
         <div>
-            <label class="block text-sm font-medium text-amber-700">Colors</label>
-            <p class='text-amber-700'>Body Color</p>
+            <label class="block text-sm font-medium">Colors</label>
+            <p>Body Color</p>
             <input name="color1" class='w-full p-2' required type='color'>
             <input name="color2" class='w-full p-2' required type='color'>
             <input name="color3" class='w-full p-2' required type='color'>
             <input name="accent_color" class='w-full p-2' required type='color'>
         </div>
-        <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-yellow-100 py-2 px-4 rounded">Add Cassette</button>
+        <button type="submit" class="w-full py-2 px-4 button-style">Add Cassette</button>
     </form>
 
     {% for message in messages %}

@@ -22,8 +22,8 @@ function savePlayerState() {
         time: audioPlayer.currentTime,
         isPlaying: !audioPlayer.paused,
         isRepeat,
-        isShuffle
-    }));
+        isShuffle,
+}));
 }
 
 function loadPlayerState() {
